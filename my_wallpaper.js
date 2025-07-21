@@ -1,7 +1,7 @@
 //your parameter variables go here!
-let rect_width  = 20;
-let rect_height = 30;
-
+let flowerX = 100;
+let flowerY = 100;
+let flowerDiameter = 90;
 
 function setup_wallpaper(pWallpaper) {
   pWallpaper.output_mode(DEVELOP_GLYPH);
@@ -17,9 +17,42 @@ function setup_wallpaper(pWallpaper) {
 }
 
 function wallpaper_background() {
-  background(240, 255, 240); //light honeydew green colour
+  background(32,31,34); 
 }
 
-function my_symbol() { // do not rename this function. Treat this similarly to a Draw function
-  rect(40 ,40, rect_width, rect_height);
+function my_symbol() { 
+  // Color variable 
+  let gold = color(161, 141, 103);
+  let pink = color(238,186,198);
+  let red = color(169, 67, 69);
+  let yellow = color(254,214,123);
+
+  let defaultColor = yellow;
+
+  // flower petal 
+  fill(defaultColor);
+  noStroke();
+  flowerPetals(flowerX,flowerY, 7, defaultColor)
+
+  // middle of flower
+  strokeWeight(2);
+  stroke(32,31,34);
+  fill(defaultColor);
+  ellipse(flowerX, flowerY, flowerDiameter/5, flowerDiameter/5);
+}
+
+// make flower petals 
+function flowerPetals(midX, midY, petalNumber, color) {
+  let petalRotation = 360/petalNumber;
+  
+  for (let i = 0; i < petalNumber; i++) {
+   push();
+      fill(color);
+      noStroke();
+
+      translate(midX, midY);
+      rotate(petalRotation*i);
+      ellipse(0, 0-20, flowerDiameter/6, flowerDiameter/3);
+    pop();
+  }
 }
