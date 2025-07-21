@@ -2,6 +2,7 @@
 let flowerX = 100;
 let flowerY = 100;
 let flowerDiameter = 90;
+let petalNum = 7;
 
 function setup_wallpaper(pWallpaper) {
   pWallpaper.output_mode(DEVELOP_GLYPH);
@@ -26,13 +27,14 @@ function my_symbol() {
   let pink = color(238,186,198);
   let red = color(169, 67, 69);
   let yellow = color(254,214,123);
+  let blue = color(173, 216, 230);
 
-  let defaultColor = yellow;
+  let defaultColor = gold;
 
   // flower petal 
   fill(defaultColor);
   noStroke();
-  flowerPetals(flowerX,flowerY, 7, defaultColor)
+  flowerPetals(flowerX, flowerY, petalNum, defaultColor);
 
   // middle of flower
   strokeWeight(2);
@@ -52,7 +54,7 @@ function flowerPetals(midX, midY, petalNumber, color) {
 
       translate(midX, midY);
       rotate(petalRotation*i);
-      ellipse(0, 0-20, flowerDiameter/6, flowerDiameter/3);
+      ellipse(0, 0-(flowerDiameter/5), flowerDiameter/6, flowerDiameter/3);
     pop();
   }
 }
