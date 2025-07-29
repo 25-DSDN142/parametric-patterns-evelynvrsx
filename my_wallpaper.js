@@ -4,7 +4,9 @@ let flowerY = 100;
 let flowerDiameter = 90;
 let petalNum = 10;
 let outsidePetalNum = 5;
-let numberOfFlowers = 5;
+
+let numberOfFlowers = 9;
+
 let colors = [];
 
 function setup_wallpaper(pWallpaper) {
@@ -51,13 +53,12 @@ function my_symbol() {
   stroke(32,31,34); //background color
   fill(defaultColor);
   ellipse(flowerX, flowerY, flowerDiameter/5, flowerDiameter/5);
-  //middleOfFlower(flowerX, flowerY, flowerDiameter);
 
   // outside flower petal
   strokeWeight(2);
   stroke(defaultColor);
   noFill();
-  outsideFlowerPetals(flowerX, flowerY, outsidePetalNum, defaultColor);
+  outsideFlowerPetals(flowerX, flowerY);
 
   // how many motifs are in the 200x200 screen
   if (numberOfFlowers < 7) {
@@ -68,14 +69,20 @@ function my_symbol() {
       flowerX = floor(random(20, 190));
       flowerY = floor(random(20, 180));
       fill(defaultColor);
-      insideFlowerPetals((flowerX, flowerY, petalNum, defaultColor));
+      insideFlowerPetals(flowerX, flowerY, petalNum, defaultColor);
 
-      //middleOfFlower(flowerX, flowerY, flowerDiameter);
-      outsideFlowerPetals(flowerX, flowerY, outsidePetalNum, defaultColor);
+      // middle of flower stroke
+      push()
+        strokeWeight(2);
+        stroke(32,31,34); //background color
+        fill(defaultColor);
+        ellipse(flowerX, flowerY, flowerDiameter/5, flowerDiameter/5);
+      pop();
+
+      outsideFlowerPetals(flowerX, flowerY);
+
+      backgroundLine();
     }
-  }
-  else {
-    
   }
 }
 
@@ -104,8 +111,9 @@ function middleOfFlower(midX, midY) {
 }
 
 // make outside flower petals
-function outsideFlowerPetals(midX, midY, outsidePetalNumber) {
-  let petalRotation = 360/outsidePetalNumber;
+function outsideFlowerPetals(midX, midY) {
+  let petalRotation = 360/5;
+  noFill();
   
   for (let i = 0; i < 5; i++) {
    push();
@@ -116,4 +124,9 @@ function outsideFlowerPetals(midX, midY, outsidePetalNumber) {
 
     pop();
   }
+}
+
+
+function backgroundLine() {
+  line(0, 40, 50, 40);
 }
