@@ -4,7 +4,7 @@ let flowerY = 100;
 let flowerDiameter = 90;
 let petalNum = 10;
 
-let miniFlowers = 5;
+let miniFlowers = 9;
 
 let numberOfSwirls = 3;
 let swirlCount = 3;
@@ -25,11 +25,12 @@ function setup_wallpaper(pWallpaper) {
 }
 
 function wallpaper_background() {
-  background(32,31,34); 
+  background(24, 25, 56); // dark mode
+  //background(255,248,222); // light mode
 }
 
 function my_symbol() { 
-  // Color variable 
+  // // Color variable dark mode
   let gold = color(161, 141, 103);
   let pink = color(238,186,198);
   let red = color(169, 67, 69);
@@ -42,6 +43,19 @@ function my_symbol() {
   colors.push(red);
   colors.push(yellow);
   colors.push(blue);
+
+  // Color variable light mode 
+  // let darkRed = color(169, 34, 9);
+  // let orange = color(246,89,63);
+  // let cinereous = color(185,132,106);
+  // let darkBlue = color(88,98,106);
+  // let grey = color(153,155,154);
+
+  // colors.push(darkRed);
+  // colors.push(orange);
+  // colors.push(cinereous);
+  // colors.push(darkBlue);
+  // colors.push(grey);
 
   let defaultColor = random(colors);
 
@@ -125,8 +139,6 @@ function outsideFlowerPetals(midX, midY) {
 
 function backgroundSketch() {
   noFill();
-  stroke(161, 141, 103); // gold color
-  strokeWeight(2);
 
   for (let num = 0; num < numberOfSwirls; num++) {
     let startX = random(20, 180);
@@ -145,9 +157,8 @@ function backgroundSketch() {
 
 function drawSwirl(x, y, size, startAngle = 0) {
   noFill();
-  stroke(91, 38, 133); // dark purple
-  //stroke(72, 71, 115); //dark brown
-  //stroke(87, 74, 41); //dark blue
+  //stroke(230, 209, 194); // light brown for light mode 
+  stroke(125, 102, 86); //dark brown for dark mode
   strokeWeight(2);
 
   let px, py;
