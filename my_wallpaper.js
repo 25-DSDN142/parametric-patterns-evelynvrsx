@@ -3,15 +3,17 @@ let flowerX = 100;
 let flowerY = 100;
 let flowerDiameter = 90;
 let petalNum = 10;
-let outsidePetalNum = 5;
 
-let numberOfFlowers = 9;
+let miniFlowers = 5;
+
+let numberOfSwirls = 3;
+let swirlCount = 3;
 
 let colors = [];
 
 function setup_wallpaper(pWallpaper) {
   pWallpaper.output_mode(DEVELOP_GLYPH);
-  //pWallpaper.output_mode(GRID_WALLPAPER);
+  pWallpaper.output_mode(GRID_WALLPAPER);
   
   pWallpaper.resolution(FIT_TO_SCREEN);
   pWallpaper.show_guide(false); //set this to false when you're ready to print
@@ -43,6 +45,34 @@ function my_symbol() {
 
   let defaultColor = random(colors);
 
+  // how many motifs are in the 200x200 screen
+  if (miniFlowers < 7) {
+    flowerDiameter = 40;
+    stroke(defaultColor);
+    strokeWeight(1);
+
+
+    for (let i = 0; i < miniFlowers; i++) {
+      flowerX = floor(random(20, 190));
+      flowerY = floor(random(20, 180));
+      fill(defaultColor);
+      insideFlowerPetals(flowerX, flowerY, petalNum, defaultColor);
+
+      // middle of flower stroke
+      push()
+        strokeWeight(2);
+        stroke(32,31,34); //background color
+        fill(defaultColor);
+        ellipse(flowerX, flowerY, flowerDiameter/5, flowerDiameter/5);
+      pop();
+
+      outsideFlowerPetals(flowerX, flowerY);
+    }
+  }
+  else {
+    backgroundSketch();
+  }
+
   // flower petal 
   fill(defaultColor);
   noStroke();
@@ -59,31 +89,6 @@ function my_symbol() {
   stroke(defaultColor);
   noFill();
   outsideFlowerPetals(flowerX, flowerY);
-
-  // how many motifs are in the 200x200 screen
-  if (numberOfFlowers < 7) {
-    flowerDiameter = 40;
-    strokeWeight(1);
-
-    for (let i = 0; i < numberOfFlowers; i++) {
-      flowerX = floor(random(20, 190));
-      flowerY = floor(random(20, 180));
-      fill(defaultColor);
-      insideFlowerPetals(flowerX, flowerY, petalNum, defaultColor);
-
-      // middle of flower stroke
-      push()
-        strokeWeight(2);
-        stroke(32,31,34); //background color
-        fill(defaultColor);
-        ellipse(flowerX, flowerY, flowerDiameter/5, flowerDiameter/5);
-      pop();
-
-      outsideFlowerPetals(flowerX, flowerY);
-
-      backgroundLine();
-    }
-  }
 }
 
 // make flower petals 
@@ -102,14 +107,6 @@ function insideFlowerPetals(midX, midY, petalNumber, color) {
   }
 }
 
-// make middle of flower
-function middleOfFlower(midX, midY) {
-  strokeWeight(2);
-  stroke(32,31,34); //background color
-  fill(defaultColor);
-  ellipse(midX, midY, flowerDiameter/5, flowerDiameter/5);
-}
-
 // make outside flower petals
 function outsideFlowerPetals(midX, midY) {
   let petalRotation = 360/5;
@@ -126,7 +123,106 @@ function outsideFlowerPetals(midX, midY) {
   }
 }
 
+function backgroundSketch() {
+  noFill();
+  stroke(161, 141, 103); // gold color
+  strokeWeight(2);
 
-function backgroundLine() {
-  line(0, 40, 50, 40);
+  for (let num = 0; num < numberOfSwirls; num++) {
+    let startX = random(20, 180);
+    let startY = random(20, 180);
+    let swirlSize = 30;
+
+    // Draw a chain of connected swirls
+    for (let i = 0; i < swirlCount; i++) {
+      let [endX, endY] = drawSwirl(startX, startY, swirlSize, i * 90); // rotate each swirl
+      startX = endX;
+      startY = endY;
+    }
+  }
 }
+  
+
+function drawSwirl(x, y, size, startAngle = 0) {
+  noFill();
+  stroke(91, 38, 133); // dark purple
+  //stroke(72, 71, 115); //dark brown
+  //stroke(87, 74, 41); //dark blue
+  strokeWeight(2);
+
+  let px, py;
+
+  beginShape();
+  for (let t = 0; t <= 540; t += 10) {
+    let r = size * (1 - t / 540);
+    px = x + cos(t + startAngle) * r;
+    py = y + sin(t + startAngle) * r;
+    curveVertex(px, py);
+  }
+  endShape();
+
+  // Return the final (end) position so the next swirl can start from here
+  return [px, py];
+}
+
+
+
+// function backgroundSketch() {
+//   // let cloudColor = color(55, 54, 89);
+//   // stroke(cloudColor);
+//   // strokeWeight(3);
+//   // line(0, 40, 50, 40);
+
+//   // Cloud colors
+//   let cloudColors = [
+//     color(169, 67, 69),    // dark red
+//     color(224, 93, 86),    // mid red
+//     color(55, 54, 89),  // light red/pink
+//   ];
+
+//   noStroke();
+//   rectMode(CENTER);
+
+//   // Helper function to draw a cloud shape
+//   function drawCloud(x, y, segments, colorIndex, scale = 1) {
+//     fill(cloudColors[colorIndex]);
+
+//     for (let i = 0; i < segments.length; i++) {
+//       let seg = segments[i];
+//       let cx = x + seg[0] * scale;
+//       let cy = y + seg[1] * scale;
+//       let w = seg[2] * scale;
+//       let h = seg[3] * scale;
+//       rect(cx, cy, w, h, h / 2); // rounded rects
+//     }
+//   }
+
+//   // Cloud segment definitions: [offsetX, offsetY, width, height]
+//   let cloud1 = [
+//     [-40, 0, 60, 20],
+//     [0, 0, 100, 20],
+//     [60, 0, 40, 20],
+//     [20, -20, 40, 20],
+//     [-60, -20, 30, 20],
+//   ];
+
+//   let cloud2 = [
+//     [-30, 0, 80, 25],
+//     [20, 0, 60, 25],
+//     [-50, -20, 30, 20],
+//     [50, -20, 30, 20],
+//     [-20, 20, 40, 20],
+//   ];
+
+//   let cloud3 = [
+//     [-20, 0, 60, 15],
+//     [30, 0, 40, 15],
+//     [-30, -20, 30, 15],
+//   ];
+
+//   // Draw multiple cloud groups at different positions and sizes
+//   drawCloud(60, 40, cloud1, 2, 1);
+//   drawCloud(140, 80, cloud2, 1, 1);
+//   drawCloud(100, 130, cloud3, 0, 1);
+
+// }
